@@ -27,13 +27,14 @@ function getAllProducts(url) {
  * @param { Object } objectToDisplay
  */
 function displayContent(objectToDisplay) {
-    objectToDisplay.forEach(value => {
-        items.innerHTML = `<a href="./products.html?id=${value._id}">
-                            <article>
-                                <img src="${value.imageUrl}" alt="${value.altTxt}" />
-                                <h3 class="productName">${value.name}</h3>
-                                <p class="productDescription">${value.description}</p>
-                            </article>
-                        </a>`
-    });
+
+    for (let product of objectToDisplay) {
+        items.innerHTML = `<a href="./products.html?id=${product._id}">
+                                      <article>
+                                          <img src="${product.imageUrl}" alt="${product.altTxt}" />
+                                          <h3 class="productName">${product.name}</h3>
+                                          <p class="productDescription">${product.description}</p>
+                                      </article>
+                                  </a>`
+    }
 }
