@@ -5,7 +5,7 @@ window.addEventListener('load', function(event) {
 });
 
 /**
- * Contacts the API to get all infprmation about all products sold
+ * Contacts the API to get all information about all products sold
  * @param { String } url
  */
 
@@ -29,7 +29,7 @@ function getAllProducts(url) {
 function displayContent(objectToDisplay) {
 
     for (let product of objectToDisplay) {
-        items.innerHTML = `<a href="./products.html?id=${product._id}">
+        items.innerHTML = `<a href="./product.html?id=${product._id}">
                                       <article>
                                           <img src="${product.imageUrl}" alt="${product.altTxt}" />
                                           <h3 class="productName">${product.name}</h3>
