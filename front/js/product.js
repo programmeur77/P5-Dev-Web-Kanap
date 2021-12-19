@@ -1,3 +1,4 @@
+// ------ VARIABLES ------
 const params = new URLSearchParams(window.location.search),
   productId = params.get('id');
 
@@ -17,6 +18,8 @@ let cart = {
 
 const cartContent = [];
 
+//------ EVENTS ------
+
 window.addEventListener('load', function () {
   fetchProduct(productId);
 });
@@ -28,9 +31,27 @@ submit.addEventListener('click', function () {
     quantity: productQuantity.value
   };
 
-  isSetStorage(cart);
+  if (isSetStorage('totalCart')) {
+    var storageIndex = findStorageContent();
+    console.log(storageIndex);
+    if (storageIndex == -1) {
+      cartContent.push(cart);
+      setLocalStorage(cartContent);
+    } else {
+      var newQuantityArray = modifyQuantity(storageIndex);
+      cartContent[storageIndex] = newQuantityArray;
+      console.log(cartContent);
+      setLocalStorage(cartContent);
+    }
+  } else {
+    cartContent.push(cart);
+    setLocalStorage(cartContent);
+  }
 });
 
+//------ FUNCTIONS ------
+
+//--- DISPLAY FUNCTIONS ---
 /**
  * Fetch info about a specific product accrording to product ID
  * @param { String } productId
@@ -76,6 +97,8 @@ function displayData(data) {
   colorOptions(data.colors);
 }
 
+// --- LOCALSTORAGE FUNCTIONS ---
+
 /**
  * Stores data in local memory
  * @param { Array } dataToStore
@@ -95,27 +118,21 @@ function getLocalStorage(dataToGet) {
 }
 
 /**
- * Checks if a local storage exists for actual cart
- * @param { Object } cart
+ * Checks if a local storage exists for specified LocalStorage key
+ * @param { String } key
+ * @returns { Boolean }
  */
-function isSetStorage(cart) {
-  if (!localStorage.getItem('totalCart')) {
-    cartContent.push(cart);
-    setLocalStorage(cartContent);
+function isSetStorage(key) {
+  if (localStorage.getItem(key)) {
+    return true;
   } else {
-    var storageIndex = findStorageContent();
-    if (storageIndex == -1) {
-      cartContent.push(cart);
-      setLocalStorage(cartContent);
-    } else {
-      modifyQuantity(cart, storageIndex);
-    }
+    return false;
   }
 }
 
 /**
  * Check if there's already an article with the same id AND color in localStorage items
- * @returns index number if found or -1 if nothing found
+ * @returns { Number } index number if found or -1 if nothing found
  */
 function findStorageContent() {
   var cart = getLocalStorage('totalCart');
@@ -124,4 +141,20 @@ function findStorageContent() {
       elements.id == productId && elements.color == productColors.value
   );
   return index;
+}
+
+/**
+ * Convert quantity strings to numbers and update it in the correct array entry
+ * @param { Number } storageIndex index of the quantity entry that must be updated
+ * @returns
+ */
+function modifyQuantity(storageIndex) {
+  let cart = getLocalStorage('totalCart');
+
+  let currentQuantity = parseInt(cart[storageIndex].quantity);
+  let quantityToAdd = parseInt(productQuantity.value);
+
+  cart[storageIndex].quantity = currentQuantity + quantityToAdd;
+
+  return cart;
 }
