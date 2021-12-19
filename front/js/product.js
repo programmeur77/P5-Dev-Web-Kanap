@@ -97,7 +97,7 @@ function displayData(data) {
   colorOptions(data.colors);
 }
 
-// --- LOCALSTORAGE FUNCTIONS ---
+// ---- LOCAL STORAGE FUNCTIONS ----
 
 /**
  * Stores data in local memory
