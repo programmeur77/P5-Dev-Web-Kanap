@@ -17,6 +17,7 @@ function setLocalStorage(dataToStore) {
  * @returns content in JSON/Object format
  */
 function getLocalStorage(dataToGet) {
+  console.log(localStorage);
   return JSON.parse(localStorage.getItem(dataToGet));
 }
 

@@ -1,6 +1,7 @@
 items = document.getElementById('items');
 
 window.addEventListener('load', function(event) {
+    console.log(localStorage);
     getAllProducts('http://localhost:3000/api/products');
 });
 
