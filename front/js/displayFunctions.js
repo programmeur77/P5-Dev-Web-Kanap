@@ -52,7 +52,7 @@ function displayData(data) {
 function displayContent(cart, storageElement) {
   cartItems.insertAdjacentHTML(
     'beforeend',
-    `<article class="cart__item" data-id="${storageElement.id}" data-color="${storageElement.product}">
+    `<article class="cart__item" data-id="${storageElement.id}" data-color="${storageElement.color}">
       <div class="cart__item__img">
         <img src="${cart.imageUrl}" alt="Photographie d'un canapé">
       </div>
@@ -65,7 +65,7 @@ function displayContent(cart, storageElement) {
         <div class="cart__item__content__settings">
           <div class="cart__item__content__settings__quantity">
             <p>Qté : </p>
-            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${storageElement.quantity}">
+            <input type="number" class="itemQuantity" name="itemQuantity" id="quantity" min="1" max="100" value="${storageElement.quantity}">
           </div>
           <div class="cart__item__content__settings__delete">
             <p class="deleteItem">Supprimer</p>
@@ -74,5 +74,4 @@ function displayContent(cart, storageElement) {
       </div>
     </article>`
   );
-  console.log(article.dataset.color);
 }
