@@ -4,99 +4,48 @@ const cartItems = document.querySelector('.cart #cart__items'),
 
 const cartContent = getLocalStorage('totalCart');
 
-let array = [],
-  dataArray = [],
-  dataSetArray = [];
-
 window.addEventListener('load', function () {
-  let data;
   cartContent.map((element) => {
-    data = getProductsToBuy(element.id);
-    console.log(data);
+    fetch(`http://localhost:3000/api/products/${element.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        displayContent(data, element);
+      });
   });
 });
 
-function getProductsToBuy(elementId) {
-  fetch(`http://localhost:3000/api/products/${elementId}`)
-    .then((response) => {
-      return response.json();
-    })
-    .then((jsonData) => {
-      return jsonData;
-    });
-}
+cartItems.addEventListener('change', function (event) {
+  let target = event.target;
+  let quantity = target.value;
+  let datasetItem = target.closest('article');
+  let storageIndex = findStorageContent(
+    cartContent,
+    datasetItem.dataset.id,
+    datasetItem.dataset.color
+  );
+  let newQuantityStorage = storageSetTotalQuantity(
+    cartContent,
+    storageIndex,
+    quantity
+  );
+  setModifiedStorage('totalCart', newQuantityStorage);
+});
 
-// function getProducts(arrayToGet) {
-//   arrayToGet.map((element) => {
-//     fetch(`http://localhost:3000/api/products/${element.id}`)
-//       .then((response) => {
-//         return response.json();
-//       })
-//       .then((data) => {
-//         displayContent(data, element);
-//         convertCollectionToArray(article);
-//         getDataset(array);
-//         addListenerOnCollection(quantity, 'change');
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   });
+// window.addEventListener('load', async function () {
+//   let data;
+//   await Promise.all(
+//     cartContent.map(async (element) => {
+//       data = await getProductsToBuy(element.id);
+//       console.log(data);
+//     })
+//   );
+// });
+
+// async function getProductsToBuy(elementId) {
+//   const response = await fetch(
+//     `http://localhost:3000/api/products/${elementId}`
+//   );
+//   const json = await response.json();
+//   const jsonData = json;
+//   return jsonData;
 // }
-
-function convertCollectionToArray(htmlCollection) {
-  array = Array.from(htmlCollection);
-}
-
-function getDataset(array) {
-  array.map((element) => {
-    dataSetArray.push(element.dataset);
-  });
-}
-
-function addListenerOnCollection(collection, eventToListenTo) {
-  for (let index of collection) {
-    collection.item(index).addEventListener(eventToListenTo, function () {
-      let newCartQuantityArray = updateCartQuantity(cartContent, dataSetArray);
-      localStorage.removeItem('totalCart');
-      //TODO Remplace former Array with the quantity modified one
-    });
-  }
-}
-
-function updateCartQuantity(storageContentArray, productDatasetArray) {
-  let newCart = {};
-  let newCartQuantityArray = [];
-  let currentQuantity = parseInt(getQuantity());
-  for (product of storageContentArray) {
-    for (element of productDatasetArray) {
-      if (
-        product.id === element.id &&
-        product.color === element.color &&
-        product.quantity != currentQuantity
-      ) {
-        newCart = {
-          id: product.id,
-          color: product.color,
-          quantity: currentQuantity
-        };
-      } else {
-        newCart = {
-          id: product.id,
-          color: product.color,
-          quantity: product.quantity
-        };
-      }
-    }
-  }
-  newCartQuantityArray.push(newCart);
-  return newCartQuantityArray;
-}
-
-function getQuantity() {
-  let newQuantity;
-  for (index in quantity) {
-    newQuantity = quantity.item(index).value;
-  }
-  return newQuantity;
-}
