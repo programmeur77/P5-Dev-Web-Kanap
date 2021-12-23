@@ -1,2 +1,8 @@
-.DS_Store
+#Config files
 .prettierrc
+
+# Misc
+.DS_Store
+
+# Directories
+out/
