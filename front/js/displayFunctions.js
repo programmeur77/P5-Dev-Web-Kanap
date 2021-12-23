@@ -60,7 +60,7 @@ function displayContent(cart, storageElement) {
         <div class="cart__item__content__description">
           <h2>${cart.name}</h2>
           <p>${storageElement.color}</p>
-          <p>${cart.price}</p>
+          <p>${cart.price}€</p>
         </div>
         <div class="cart__item__content__settings">
           <div class="cart__item__content__settings__quantity">
