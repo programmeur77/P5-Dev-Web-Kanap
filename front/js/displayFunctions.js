@@ -43,3 +43,12 @@ function displayData(data) {
   productDescription.innerHTML = data.description;
   colorOptions(data.colors);
 }
+
+function displayQuantity(storageArray, DOMNode) {
+  DOMNode.innerText = storageArray.length;
+}
+
+function displayPrice(storageArray, DOMNode) {
+  let total = getTotalPrice(storageArray);
+  DOMNode.innerText = total;
+}
