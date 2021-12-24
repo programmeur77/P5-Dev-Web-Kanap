@@ -35,13 +35,10 @@ function isSetStorage(key) {
  * @returns { Number } index number if found or -1 if nothing found
  */
 function findStorageContent(storageContent, IdOfProduct, productColor) {
-  console.log(IdOfProduct);
-  console.log(productColor);
   if (IdOfProduct != null && productColor != null) {
     var index = storageContent.findIndex(
       (elements) => elements.id == IdOfProduct && elements.color == productColor
     );
-    console.log(index);
   } else {
     var index = storageContent.findIndex(
       (elements) =>
@@ -93,4 +90,9 @@ function storageSetTotalQuantity(storageContent, storageIndex, quantity) {
 function setModifiedStorage(storageName, arrayToReplaceBy) {
   localStorage.removeItem(storageName);
   setLocalStorage(arrayToReplaceBy);
+}
+
+function removeProduct(storageContent, storageContentIndex) {
+  storageContent.splice(storageContentIndex, 1);
+  return storageContent;
 }
