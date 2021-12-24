@@ -1,16 +1,29 @@
 const cartItems = document.querySelector('.cart #cart__items'),
-  quantity = document.getElementsByClassName('itemQuantity');
+  quantity = document.getElementsByClassName('itemQuantity'),
+  totalQuantity = document.getElementById('totalQuantity'),
+  totalPrice = document.getElementById('totalPrice');
 
 const cartContent = getLocalStorage('totalCart');
 
 window.addEventListener('load', function () {
-  cartContent.map((element) => {
-    fetch(`http://localhost:3000/api/products/${element.id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        displayContent(data, element);
-      });
-  });
+  if (isSetStorage('totalCart')) {
+    cartContent.map((element) => {
+      fetch(`http://localhost:3000/api/products/${element.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          displayContent(data, element);
+        });
+    });
+
+    //Price display
+    displayQuantity(cartContent, totalQuantity);
+    displayPrice(cartContent, totalPrice);
+  } else {
+    cartItems.innerHTML = '<p>Votre panier est actuellement vide</p>';
+    document.querySelector(
+      '#cartAndFormContainer .cart .cart__price'
+    ).style.display = 'none';
+  }
 });
 
 cartItems.addEventListener('change', function (event) {
@@ -28,6 +41,7 @@ cartItems.addEventListener('change', function (event) {
     quantity
   );
   setModifiedStorage('totalCart', newQuantityStorage);
+  location.reload();
 });
 
 cartItems.addEventListener('click', function (event) {
@@ -39,25 +53,6 @@ cartItems.addEventListener('click', function (event) {
     location.reload();
   }
 });
-
-// window.addEventListener('load', async function () {
-//   let data;
-//   await Promise.all(
-//     cartContent.map(async (element) => {
-//       data = await getProductsToBuy(element.id);
-//       console.log(data);
-//     })
-//   );
-// });
-
-// async function getProductsToBuy(elementId) {
-//   const response = await fetch(
-//     `http://localhost:3000/api/products/${elementId}`
-//   );
-//   const json = await response.json();
-//   const jsonData = json;
-//   return jsonData;
-// }
 
 /**
  * Displays elements on cart page
@@ -89,4 +84,19 @@ function displayContent(cart, storageElement) {
       </div>
     </article>`
   );
+}
+
+/**
+ * Calculates the total price of products into localStorage according to the quantity of each product
+ * @param { Array<Object> } localStorageContent localSotrage content Array
+ * @returns { Number } total price
+ */
+function getTotalPrice(localStorageContent) {
+  let totalPrice = 0;
+  localStorageContent.forEach((element) => {
+    let priceNumber = parseInt(element.price);
+    let quantityNumber = parseInt(element.quantity);
+    totalPrice += priceNumber * quantityNumber;
+  });
+  return totalPrice;
 }
