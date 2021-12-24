@@ -13,6 +13,7 @@ const imgPlace = document.querySelector('article .item__img'),
 let cart = {
   id: this.id,
   color: this.color,
+  price: this.price,
   quantity: this.quantity
 };
 
@@ -28,9 +29,9 @@ submit.addEventListener('click', function () {
   cart = {
     id: productId,
     color: productColors.value,
+    price: productPrice.textContent,
     quantity: productQuantity.value
   };
-
   if (isSetStorage('totalCart')) {
     let currentStorage = getLocalStorage('totalCart');
     let index = findStorageContent(currentStorage);
@@ -39,9 +40,9 @@ submit.addEventListener('click', function () {
       let newCart = currentStorage.concat(cartContent);
       setLocalStorage(newCart);
     } else {
+      console.log(index);
       let modifiedArray = modifyQuantity(index);
-      localStorage.removeItem('totalCart');
-      setLocalStorage(modifiedArray);
+      setModifiedStorage('totalCart', modifiedArray);
     }
   } else {
     cartContent.push(cart);
