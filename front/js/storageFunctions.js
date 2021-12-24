@@ -18,7 +18,7 @@ function getLocalStorage(dataToGet) {
 
 /**
  * Checks if a local storage exists for specified LocalStorage key
- * @param { String } key
+ * @param { String } key name of localStorage item to get
  * @returns { Boolean }
  */
 function isSetStorage(key) {
