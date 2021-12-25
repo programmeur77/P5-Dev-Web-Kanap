@@ -61,15 +61,36 @@ form.addEventListener('focusout', function (event) {
   }
 });
 
-submit.addEventListener('click', function () {
+submit.addEventListener('click', function (event) {
+    event.preventDefault();
   if (
     firstName.value != '' ||
     lastName.value != '' ||
     address.value != '' ||
     city.value != '' ||
-    (email.value != '' && isError == false)
+    email.value != '' && isError == false
   ) {
-    console.log(firstName.value);
+    let contact = {
+        contact: {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            address: address.value,
+            city: city.value,
+            email: email.value
+        }
+    };
+
+    var cart = getIdArray(cartContent);
+
+    let cartProduct = {
+        products:
+            cart
+    }
+
+    var mergeObject = Object.assign(cartProduct, contact);
+
+    validateOrder(mergeObject);
+
   } else {
     console.log('not ok');
   }
@@ -90,4 +111,38 @@ function displayErrorMessage(errorDiv, fieldNameValue) {
 
 function eraseErrorMessage(errorDiv) {
   document.getElementById(`${errorDiv}ErrorMsg`).innerText = '';
+}
+
+function transformToJson(elementToTransform) {
+   return JSON.stringify(elementToTransform);
+}
+
+function validateOrder(contentToPost) {
+    var json  = JSON.stringify(contentToPost);
+    console.log(json);
+    fetch('http://localhost:3000/api/products/order', {
+        method: 'post',
+        body: json,
+        headers : {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(jsonData) {
+        window.location.href = `./../html/confirmation.html?orderId=${dataToURL.orderId}`
+    })
+    .catch(function(error) {
+        console.error(error);
+    })
+}
+
+function getIdArray(array) {
+    let newArray = [];
+    for(index in array) {
+        newArray.push(array[index].id);
+    }
+
+    return newArray;
 }
