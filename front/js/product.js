@@ -41,7 +41,11 @@ submit.addEventListener('click', function () {
       setLocalStorage(newCart);
     } else {
       console.log(index);
-      let modifiedArray = modifyQuantity(index);
+      let modifiedArray = storageSetTotalQuantity(
+        currentStorage,
+        index,
+        productQuantity.value
+      );
       setModifiedStorage('totalCart', modifiedArray);
     }
   } else {
