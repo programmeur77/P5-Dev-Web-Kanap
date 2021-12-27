@@ -1,5 +1,6 @@
 #Config files
 .prettierrc
+.vscode/
 
 # Misc
 .DS_Store
