@@ -1,4 +1,4 @@
-const cartItems = document.querySelector('.cart #cart__items'),
+const cartItems = document.getElementById('cart__items'),
   quantity = document.getElementsByClassName('itemQuantity'),
   totalQuantity = document.getElementById('totalQuantity'),
   totalPrice = document.getElementById('totalPrice');
@@ -8,14 +8,8 @@ const cartContent = getLocalStorage('totalCart');
 window.addEventListener('load', function () {
   if (isSetStorage('totalCart')) {
     cartContent.map((element) => {
-      fetch(`http://localhost:3000/api/products/${element.id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          displayContent(data, element);
-        });
+      getTotalCart(element);
     });
-
-    //Price display
     displayQuantity(cartContent, totalQuantity);
     displayPrice(cartContent, totalPrice);
   } else {
@@ -57,7 +51,7 @@ cartItems.addEventListener('click', function (event) {
 /**
  * Displays elements on cart page
  * @param { Object } cart Contains fetched elements according to id stored in localStorage
- * @param { Object } storageElement Contains id, color and quantity of storaged products
+ * @param { Object } storageElement Contains id, color, price and quantity of storaged products
  */
 function displayContent(cart, storageElement) {
   cartItems.insertAdjacentHTML(
@@ -84,6 +78,16 @@ function displayContent(cart, storageElement) {
       </div>
     </article>`
   );
+}
+
+function getTotalQuantity(content) {
+  let totalQuantity = 0;
+  content.map((element) => {
+    let currentQuantity = parseInt(element.quantity);
+    totalQuantity += currentQuantity;
+  });
+
+  return totalQuantity;
 }
 
 /**
