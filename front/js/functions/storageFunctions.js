@@ -92,6 +92,12 @@ function setModifiedStorage(storageName, arrayToReplaceBy) {
   setLocalStorage(arrayToReplaceBy);
 }
 
+/**
+ * Removes an entry from the array given in parameter
+ * @param {Array<Object>} storageContent Array containing locally storaged cart
+ * @param {Number} storageContentIndex Index of the element to remove from the array
+ * @returns Initial array without the entry deleted
+ */
 function removeProduct(storageContent, storageContentIndex) {
   storageContent.splice(storageContentIndex, 1);
   return storageContent;

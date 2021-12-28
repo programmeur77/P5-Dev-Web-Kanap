@@ -6,6 +6,9 @@ const form = document.querySelector('.cart .cart__order__form'),
   email = document.getElementById('email'),
   submit = document.getElementById('order');
 
+let errorMessage = '',
+  isError = true;
+
 const firstNamePattern =
     /^[A-Z]{1}[a-z]+[îñôäëöü]{0,}[a-z]{0,}|[A-Z]{1}[a-z]+[\-]{1}[A-Z]{1}[a-z]+$/,
   lastNamePattern =
@@ -13,9 +16,6 @@ const firstNamePattern =
   addressPattern = /[0-9]{0,3}\s?[A-Za-zîñôäëöüÂÊÎÔÛÉÈÀÄËÏÖÜ]+/g,
   cityPattern = /([A-Za-zîñôäëöüÂÊÎÔÛÉÈÀÄËÏÖÜ\-]{2,})+/g,
   emailPattern = /^([\.\_a-zA-Z0-9]+)@([a-z]+)\.([a-z]){2,3}$/;
-
-let errorMessage = '',
-  isError = true;
 
 form.addEventListener('focusout', function (event) {
   let target = event.target;
@@ -51,6 +51,12 @@ submit.addEventListener('click', function (event) {
   }
 });
 
+/**
+ * Checks format of input value, set isError variable and displays a message according to the error made by the user
+ * @param {Object} idValue Value of id attribute of the targeted element
+ * @param {String} fieldValue contains the value entered in the input
+ * @param {Object} fieldPattern regex to check the input value format
+ */
 function runEvent(idValue, fieldValue, fieldPattern) {
   if (!checkFieldValueFormat(fieldValue, fieldPattern)) {
     isError = true;
@@ -61,27 +67,23 @@ function runEvent(idValue, fieldValue, fieldPattern) {
   }
 }
 
+/**
+ * Checks with Regex if the input value matched expected pattern
+ * @param {String} fieldValue input value entered by the user
+ * @param {Object} valuePattern pattern model of each input expected format for value
+ * @returns true if input value matches pattern, false if applicable
+ */
 function checkFieldValueFormat(fieldValue, valuePattern) {
   var pattern = valuePattern;
 
   return fieldValue.match(pattern) ? true : false;
 }
 
-function displayErrorMessage(errorDiv, isError) {
-  fieldId = `${errorDiv}ErrorMsg`;
-  if (isError) {
-    document.getElementById(fieldId).innerText = 'Merci de renseigner ce champ';
-  } else {
-    document.getElementById(`${errorDiv}ErrorMsg`).innerText = '';
-  }
-}
-
-function transformToJson(elementToTransform) {
-  return JSON.stringify(elementToTransform);
-}
-
-
-
+/**
+ * Creates an array containing IDs of products in storage
+ * @param {Array} array Array containing the IDs to extract
+ * @returns new Array containing IDs
+ */
 function getIdArray(array) {
   let newArray = [];
   for (index in array) {
