@@ -80,6 +80,11 @@ function displayContent(cart, storageElement) {
   );
 }
 
+/**
+ * Calculates the total quantity of products in array according to the quantity of each product
+ * @param { Array } content Array that we want to get the quantity of
+ * @returns The total quantity of mapped element
+ */
 function getTotalQuantity(content) {
   let totalQuantity = 0;
   content.map((element) => {
