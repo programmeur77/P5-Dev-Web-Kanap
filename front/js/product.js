@@ -9,12 +9,7 @@ const imgPlace = document.querySelector('article .item__img'),
   productQuantity = document.getElementById('quantity'),
   submit = document.getElementById('addToCart');
 
-let cart = {
-  id: this.id,
-  color: this.color,
-  price: this.price,
-  quantity: this.quantity
-};
+let cart = {};
 
 const cartContent = [];
 
