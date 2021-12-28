@@ -48,7 +48,7 @@ function getTotalCart(element) {
 
 /**
  * Post request of the cart content after the user filled the form
- * @param { Array <Object> } contentToPost contains the content to post in database
+ * @param { Array.<Object> } contentToPost contains the content to post in database
  */
 function validateOrder(contentToPost) {
   var json = JSON.stringify(contentToPost);

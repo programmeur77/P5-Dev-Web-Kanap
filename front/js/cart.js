@@ -97,7 +97,7 @@ function getTotalQuantity(content) {
 
 /**
  * Calculates the total price of products into localStorage according to the quantity of each product
- * @param { Array<Object> } localStorageContent localSotrage content Array
+ * @param { Array.<Object> } localStorageContent localSotrage content Array
  * @returns { Number } total price
  */
 function getTotalPrice(localStorageContent) {
