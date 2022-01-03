@@ -24,26 +24,31 @@ submit.addEventListener('click', function () {
     price: productPrice.textContent,
     quantity: productQuantity.value
   };
-  if (isSetStorage('totalCart')) {
-    let currentStorage = getLocalStorage('totalCart');
-    let index = findStorageContent(currentStorage);
-    if (index === -1) {
-      cartContent.push(cart);
-      let newCart = currentStorage.concat(cartContent);
-      setLocalStorage(newCart);
-      location.reload(true);
+
+  if (productColors.value !== '' && productQuantity.value > 0) {
+    if (isSetStorage('totalCart')) {
+      let currentStorage = getLocalStorage('totalCart');
+      let index = findStorageContent(currentStorage);
+      if (index === -1) {
+        cartContent.push(cart);
+        let newCart = currentStorage.concat(cartContent);
+        setLocalStorage(newCart);
+        location.reload(true);
+      } else {
+        let modifiedArray = modifyQuantity(index);
+        setModifiedStorage('totalCart', modifiedArray);
+        location.reload(true);
+      }
     } else {
-      let modifiedArray = storageSetTotalQuantity(
-        currentStorage,
-        index,
-        productQuantity.value
-      );
-      setModifiedStorage('totalCart', modifiedArray);
+      cartContent.push(cart);
+      setLocalStorage(cartContent);
       location.reload(true);
     }
-  } else {
-    cartContent.push(cart);
-    setLocalStorage(cartContent);
-    location.reload(true);
+  } else if (productColors.value === '') {
+    document.getElementById('formErrorMsg').innerHTML =
+      'Merci de sélectionner une couleur';
+  } else if (productQuantity.value <= 0) {
+    document.getElementById('formErrorMsg').innerHTML =
+      'Merci de sélectionner une quantité';
   }
 });
