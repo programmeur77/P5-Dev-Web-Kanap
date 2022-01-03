@@ -43,7 +43,12 @@ cartItems.addEventListener('click', function (event) {
     let dataset = event.target.closest('article').dataset;
     let index = findStorageContent(cartContent, dataset.id, dataset.color);
     let removedProductArray = removeProduct(cartContent, index);
-    setModifiedStorage('totalCart', removedProductArray);
+    if (removedProductArray.length > 0) {
+      setModifiedStorage('totalCart', removedProductArray);
+    } else {
+      localStorage.removeItem('totalCart');
+    }
+
     location.reload();
   }
 });
