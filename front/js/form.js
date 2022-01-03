@@ -27,27 +27,38 @@ form.addEventListener('focusout', function (event) {
 
 submit.addEventListener('click', function (event) {
   event.preventDefault();
-  if (!isError && isSetStorage('totalCart')) {
-    let contact = {
-      contact: {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        address: address.value,
-        city: city.value,
-        email: email.value
-      }
-    };
-    var cart = getIdArray(cartContent);
-
-    let cartProduct = {
-      products: cart
-    };
-
-    var mergeObject = Object.assign(cartProduct, contact);
-
-    validateOrder(mergeObject);
+  if (
+    !isError &&
+    firstName.value !== '' &&
+    lastName.value !== '' &&
+    address.value !== '' &&
+    city.value !== '' &&
+    email.value !== ''
+  ) {
+    if (isSetStorage('totalCart')) {
+      let contact = {
+        contact: {
+          firstName: firstName.value,
+          lastName: lastName.value,
+          address: address.value,
+          city: city.value,
+          email: email.value
+        }
+      };
+      var cart = getIdArray(cartContent);
+      let cartProduct = {
+        products: cart
+      };
+      var mergeObject = Object.assign(cartProduct, contact);
+      validateOrder(mergeObject);
+    } else {
+      document.getElementById('formErrorMsg').innerHTML =
+        'Votre panier est actuellement vide';
+    }
+    console.log(true);
   } else {
-    console.log('not ok');
+    document.getElementById('formErrorMsg').innerHTML =
+      'Merci de renseigner tous les champs';
   }
 });
 
